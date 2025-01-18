@@ -29,16 +29,19 @@ export const columns: ColumnsType<Aircraft> = [
     title: "Регистрационный номер",
     key: "registrationNumber",
     dataIndex: "registrationNumber",
+    sorter: true,
   },
   {
     title: "Модель",
     key: "model",
     dataIndex: "model",
+    sorter: true,
   },
   {
     title: "Год выпуска",
     key: "year",
     dataIndex: "year",
+    sorter: true,
   },
   {
     title: "Статус",
@@ -50,5 +53,6 @@ export const columns: ColumnsType<Aircraft> = [
         color: getStatusColor(record.status),
       },
     }),
+    sorter: true,
   },
 ];

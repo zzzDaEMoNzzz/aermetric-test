@@ -3,37 +3,72 @@
     {
       "id": "1",
       "registrationNumber": "F-WWAI",
-      "model": "A320",
+      "model": "Airbus A320-111",
       "year": 2010,
       "status": "airworthy"
     },
     {
       "id": "2",
       "registrationNumber": "D-AILP",
-      "model": "A319",
+      "model": "Airbus A319-114",
       "year": 2005,
       "status": "maintenance"
     },
     {
       "id": "3",
       "registrationNumber": "TC-OEA",
-      "model": "A321",
+      "model": "Airbus A321-131",
       "year": 2011,
       "status": "airworthy"
     },
     {
       "id": "4",
-      "registrationNumber": "F-GUGD",
-      "model": "A318",
-      "year": 2008,
+      "registrationNumber": "OM-GTF",
+      "model": "Boeing 737-86J",
+      "year": 2001,
       "status": "airworthy"
     },
     {
       "id": "5",
+      "registrationNumber": "OK-SWW",
+      "model": "Boeing 737-7Q8",
+      "year": 2002,
+      "status": "airworthy"
+    },
+    {
+      "id": "6",
+      "registrationNumber": "F-GUGD",
+      "model": "Airbus A318-111",
+      "year": 2008,
+      "status": "airworthy"
+    },
+    {
+      "id": "7",
+      "registrationNumber": "N318FL",
+      "model": "Boeing 737-883(BDSF)",
+      "year": 2001,
+      "status": "airworthy"
+    },
+    {
+      "id": "8",
+      "registrationNumber": "ZS-SJW",
+      "model": "Boeing 737-85P",
+      "year": 2003,
+      "status": "airworthy"
+    },
+    {
+      "id": "9",
       "registrationNumber": "RA-73804",
-      "model": "A320",
+      "model": "Airbus A320-214",
       "year": 2010,
       "status": "maintenance"
+    },
+    {
+      "id": "10",
+      "registrationNumber": "N43PR",
+      "model": "Boeing 737-75V",
+      "year": 2002,
+      "status": "airworthy"
     }
   ],
   "status-history": [

@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import { Aircraft } from "@/types/aircrafts.ts";
+import { Aircraft } from "@/types/aircrafts";
+import { PaginationMeta, PaginationParams } from "@/types/pagination";
+import { SortParams } from "@/types/sorting";
 
 export const aircraftsApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8000/api/aircrafts" }),
@@ -8,11 +10,14 @@ export const aircraftsApi = createApi({
     getAllAircrafts: build.query<
       {
         items: Aircraft[];
-        meta: { page: number; perPage: number; total: number };
+        meta: PaginationMeta & SortParams;
       },
-      { page: number; perPage: number }
+      PaginationParams & SortParams
     >({
-      query: ({ page, perPage }) => `/?_page=${page}&_limit=${perPage}`,
+      query: ({ page, perPage, sortBy, sortOrder }) => {
+        const order = sortOrder === "descend" ? "desc" : "asc";
+        return `/?_page=${page}&_limit=${perPage}&_sort=${sortBy}&_order=${order}`;
+      },
       transformResponse(data: Aircraft[], meta, params) {
         const totalHeader = meta?.response?.headers.get("X-total-count") || "";
         const total = parseInt(totalHeader, 10);
