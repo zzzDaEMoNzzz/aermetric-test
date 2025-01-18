@@ -1,0 +1,5 @@
+{
+  "/api/*": "/$1",
+  "/aircrafts/:aircraftId/status": "/status-history?aircraftId=:aircraftId",
+  "/aircrafts/:aircraftId/status-history": "/status-history?aircraftId=:aircraftId"
+}

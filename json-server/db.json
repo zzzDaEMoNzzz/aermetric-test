@@ -1,0 +1,55 @@
+{
+  "aircrafts": [
+    {
+      "id": "1",
+      "registrationNumber": "F-WWAI",
+      "model": "A320",
+      "year": 2010,
+      "status": "airworthy"
+    },
+    {
+      "id": "2",
+      "registrationNumber": "D-AILP",
+      "model": "A319",
+      "year": 2005,
+      "status": "maintenance"
+    },
+    {
+      "id": "3",
+      "registrationNumber": "TC-OEA",
+      "model": "A321",
+      "year": 2011,
+      "status": "airworthy"
+    },
+    {
+      "id": "4",
+      "registrationNumber": "F-GUGD",
+      "model": "A318",
+      "year": 2008,
+      "status": "airworthy"
+    },
+    {
+      "id": "5",
+      "registrationNumber": "RA-73804",
+      "model": "A320",
+      "year": 2010,
+      "status": "maintenance"
+    }
+  ],
+  "status-history": [
+    {
+      "id": "1",
+      "aircraftId": "2",
+      "newStatus": "maintenance",
+      "date": "2025-01-18T07:24:11.470Z",
+      "comment": "At a maintenance to check something"
+    },
+    {
+      "id": "2",
+      "aircraftId": "5",
+      "newStatus": "maintenance",
+      "date": "2025-01-18T07:45:11.470Z",
+      "comment": "At a maintenance to check something"
+    }
+  ]
+}
