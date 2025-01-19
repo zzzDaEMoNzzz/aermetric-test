@@ -51,6 +51,7 @@ const Container = styled.div`
 
   h2 {
     margin-right: auto;
+    margin-bottom: 0;
   }
 `;
 
@@ -58,4 +59,14 @@ const Actions = styled.div`
   display: flex;
   align-items: center;
   gap: 0 4px;
+
+  @media (max-width: 768px) {
+    .ant-btn {
+      gap: 0;
+
+      > span:not(.ant-btn-icon) {
+        font-size: 0;
+      }
+    }
+  }
 `;
