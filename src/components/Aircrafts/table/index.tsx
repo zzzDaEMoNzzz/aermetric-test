@@ -70,7 +70,7 @@ export const AircraftsTable = memo<Props>((props) => {
           sortParams.columnKey ? String(sortParams.columnKey) : "id",
         ),
       );
-      dispatch(setAircraftsSortOrder(sortParams.order || "ascend"));
+      dispatch(setAircraftsSortOrder(sortParams.order || "descend"));
     },
     [dispatch],
   );

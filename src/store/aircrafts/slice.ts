@@ -7,7 +7,7 @@ const initialState: AircraftsStore = {
   page: 1,
   perPage: 5,
   sortBy: "id",
-  sortOrder: "ascend",
+  sortOrder: "descend",
   filters: {
     registrationNumber: null,
     model: null,
