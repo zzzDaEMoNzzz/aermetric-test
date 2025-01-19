@@ -45,11 +45,9 @@ export const AircraftsTable = memo(() => {
   const onChangeTableParams = useCallback(
     (
       pagination: TablePaginationConfig,
-      filters: Record<string, FilterValue | null>,
+      _: Record<string, FilterValue | null>,
       sorter: SorterResult<Aircraft> | SorterResult<Aircraft>[],
     ) => {
-      console.log({ pagination, filters, sorter });
-
       if (pagination.current && pagination.pageSize) {
         dispatch(setAircraftsPage(pagination.current));
         dispatch(setAircraftsPerPage(pagination.pageSize));

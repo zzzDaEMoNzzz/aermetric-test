@@ -13,7 +13,7 @@ const initialState: AircraftsStore = {
     model: null,
     yearFrom: null,
     yearTo: null,
-    status: null,
+    status: "all",
   },
 };
 
@@ -40,7 +40,10 @@ export const aircraftsSlice = createSlice({
       state,
       action: PayloadAction<keyof AircraftsFilters>,
     ) => {
-      state.filters[action.payload] = null;
+      state.filters[action.payload] = initialState.filters[
+        action.payload
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ] as any;
     },
   },
   selectors: {

@@ -1,5 +1,6 @@
 import { memo, useCallback } from "react";
-import { Form, Input, InputNumber, Modal, Space } from "antd";
+import { SelectProps } from "rc-select/lib/Select";
+import { Form, Input, InputNumber, Modal, Select, Space } from "antd";
 import styled from "styled-components";
 
 import { AircraftsFilters } from "@/store/aircrafts/types";
@@ -16,6 +17,21 @@ type Props = {
 
 const YEAR_VALIDATION_ERROR =
   "Значение От должно быть меньше или равно значению До";
+
+const STATUS_OPTIONS: SelectProps["options"] = [
+  {
+    value: "all",
+    label: "Все",
+  },
+  {
+    value: "airworthy",
+    label: "Готов к вылету",
+  },
+  {
+    value: "maintenance",
+    label: "На тех обслуживании",
+  },
+];
 
 export const AircraftFiltersModal = memo<Props>((props) => {
   const { onClose } = props;
@@ -104,7 +120,7 @@ export const AircraftFiltersModal = memo<Props>((props) => {
             </Space>
           </Form.Item>
           <Form.Item name="status" label="Статус">
-            <Input />
+            <Select options={STATUS_OPTIONS} />
           </Form.Item>
         </Form>
       </FormWrapper>

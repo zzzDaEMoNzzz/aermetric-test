@@ -15,5 +15,5 @@ export type AircraftsFilters = {
   model: string | null;
   yearFrom: string | null;
   yearTo: string | null;
-  status: Aircraft["status"] | null;
+  status: Aircraft["status"] | "all";
 };

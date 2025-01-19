@@ -9,9 +9,14 @@ export const getSearchParamsForAircraftsFilters = (
     if (value) {
       switch (key) {
         case "registrationNumber":
-        case "model":
-        case "status": {
+        case "model": {
           searchParams.set(`${key}_like`, value);
+          break;
+        }
+        case "status": {
+          if (value !== "all") {
+            searchParams.set(key, value);
+          }
           break;
         }
         case "yearFrom":
