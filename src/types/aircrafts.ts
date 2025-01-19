@@ -5,3 +5,11 @@ export type Aircraft = {
   year: number;
   status: "airworthy" | "maintenance";
 };
+
+export type AircraftStatusHistoryItem = {
+  id: string;
+  aircraftId: string;
+  newStatus: Aircraft["status"];
+  date: string;
+  comment: string;
+};

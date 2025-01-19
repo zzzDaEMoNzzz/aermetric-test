@@ -1,6 +1,11 @@
 import { ColumnsType } from "antd/es/table";
 import { Button, Flex, Tooltip } from "antd";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  HistoryOutlined,
+} from "@ant-design/icons";
+import styled from "styled-components";
 
 import { Aircraft } from "@/types/aircrafts";
 
@@ -22,17 +27,19 @@ const getStatusColor = (status: Aircraft["status"]) => {
     case "maintenance":
       return "red";
     default:
-      return "inherit";
+      return "blue";
   }
 };
 
 type GetColumnsProps = {
   onEdit: (aircraft: Aircraft) => void;
   onDelete: (id: Aircraft["id"]) => void;
+  onShowHistory: (aircraft: Aircraft) => void;
+  onEditStatus: (aircraft: Aircraft) => void;
 };
 
 export const getColumns = (props: GetColumnsProps): ColumnsType<Aircraft> => {
-  const { onEdit, onDelete } = props;
+  const { onEdit, onDelete, onShowHistory, onEditStatus } = props;
   return [
     {
       title: "Регистрационный номер",
@@ -60,12 +67,24 @@ export const getColumns = (props: GetColumnsProps): ColumnsType<Aircraft> => {
       key: "status",
       dataIndex: "status",
       width: 140,
-      render: getStatusText,
-      onCell: (record) => ({
-        style: {
-          color: getStatusColor(record.status),
-        },
-      }),
+      render: (status, record) => {
+        return (
+          <StatusButtonWrapper>
+            <Tooltip title="Изменить статус">
+              <Button
+                icon={<EditOutlined />}
+                iconPosition="end"
+                size="small"
+                variant="text"
+                color={getStatusColor(status)}
+                onClick={() => onEditStatus(record)}
+              >
+                {getStatusText(status)}
+              </Button>
+            </Tooltip>
+          </StatusButtonWrapper>
+        );
+      },
       sorter: true,
     },
     {
@@ -74,7 +93,16 @@ export const getColumns = (props: GetColumnsProps): ColumnsType<Aircraft> => {
       width: 80,
       render: (_, record) => (
         <Flex gap="small" justify="flex-end">
-          <Tooltip title="Редактировать">
+          <Tooltip title="Показать историю статусов">
+            <Button
+              shape="circle"
+              icon={<HistoryOutlined />}
+              onClick={() => {
+                onShowHistory(record);
+              }}
+            />
+          </Tooltip>
+          <Tooltip title="Редактировать самолет">
             <Button
               shape="circle"
               icon={<EditOutlined />}
@@ -83,7 +111,7 @@ export const getColumns = (props: GetColumnsProps): ColumnsType<Aircraft> => {
               }}
             />
           </Tooltip>
-          <Tooltip title="Удалить">
+          <Tooltip title="Удалить самолет">
             <Button
               shape="circle"
               icon={<DeleteOutlined />}
@@ -97,3 +125,7 @@ export const getColumns = (props: GetColumnsProps): ColumnsType<Aircraft> => {
     },
   ];
 };
+
+const StatusButtonWrapper = styled.div`
+  margin-left: -7px;
+`;

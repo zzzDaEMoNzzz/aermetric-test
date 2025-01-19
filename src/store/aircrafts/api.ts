@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import { Aircraft } from "@/types/aircrafts";
+import { Aircraft, AircraftStatusHistoryItem } from "@/types/aircrafts";
 import { PaginationMeta, PaginationParams } from "@/types/pagination";
 import { SortParams } from "@/types/sorting";
 
@@ -14,8 +14,11 @@ type GetAircraftsParams = PaginationParams &
 
 export const aircraftsApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8000/api/aircrafts" }),
-  tagTypes: ["Aircraft"],
+  tagTypes: ["Aircraft", "AircraftStatus"],
   endpoints: (build) => ({
+    /**
+     * Aircrafts
+     * */
     getAircrafts: build.query<
       {
         items: Aircraft[];
@@ -87,6 +90,42 @@ export const aircraftsApi = createApi({
       },
       invalidatesTags: ["Aircraft"],
     }),
+
+    /**
+     * Statuses
+     * */
+    getAircraftStatusHistory: build.query<
+      AircraftStatusHistoryItem[],
+      Aircraft["id"]
+    >({
+      query(id) {
+        return `/${id}/status-history`;
+      },
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({
+                type: "AircraftStatus" as const,
+                id,
+              })),
+              "AircraftStatus",
+            ]
+          : ["AircraftStatus"],
+    }),
+
+    addAircraftNewStatus: build.mutation<
+      void,
+      Omit<AircraftStatusHistoryItem, "id">
+    >({
+      query(data) {
+        return {
+          url: `/${data.aircraftId}/status`,
+          method: "POST",
+          body: data,
+        };
+      },
+      invalidatesTags: ["AircraftStatus"],
+    }),
   }),
 });
 
@@ -95,4 +134,7 @@ export const {
   useCreateAircraftMutation,
   useUpdateAircraftMutation,
   useDeleteAircraftMutation,
+
+  useGetAircraftStatusHistoryQuery,
+  useAddAircraftNewStatusMutation,
 } = aircraftsApi;

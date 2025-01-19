@@ -60,17 +60,21 @@ export const AircraftEditModal = memo<Props>((props) => {
           <Form.Item
             name="registrationNumber"
             label="Регистрационный номер"
-            rules={[{ required: true }]}
+            rules={[{ required: true, message: "Обязательное поле" }]}
           >
             <Input />
           </Form.Item>
-          <Form.Item name="model" label="Модель" rules={[{ required: true }]}>
+          <Form.Item
+            name="model"
+            label="Модель"
+            rules={[{ required: true, message: "Обязательное поле" }]}
+          >
             <Input />
           </Form.Item>
           <Form.Item
             name="year"
             label="Год выпуска"
-            rules={[{ required: true }]}
+            rules={[{ required: true, message: "Обязательное поле" }]}
           >
             <InputNumber />
           </Form.Item>

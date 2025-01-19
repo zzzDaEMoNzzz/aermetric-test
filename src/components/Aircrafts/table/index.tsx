@@ -4,6 +4,7 @@ import { type FilterValue, SorterResult } from "antd/es/table/interface";
 
 import { Aircraft } from "@/types/aircrafts";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useModalState } from "@/hooks/useModalState.ts";
 import {
   useDeleteAircraftMutation,
   useGetAircraftsQuery,
@@ -19,6 +20,8 @@ import {
   setAircraftsSortBy,
   setAircraftsSortOrder,
 } from "@/store/aircrafts/slice";
+import { StatusHistoryModal } from "@/components/Aircrafts/historyModal";
+import { AircraftEditStatusModal } from "@/components/Aircrafts/editStatusModal";
 
 import { getColumns } from "./columns";
 
@@ -36,6 +39,8 @@ export const AircraftsTable = memo<Props>((props) => {
   const { onEdit } = props;
 
   const dispatch = useAppDispatch();
+  const statusHistoryModal = useModalState<Aircraft>();
+  const editStatusModal = useModalState<Aircraft>();
 
   const page = useAppSelector(selectAircraftsPage);
   const perPage = useAppSelector(selectAircraftsPerPage);
@@ -45,7 +50,7 @@ export const AircraftsTable = memo<Props>((props) => {
 
   const [deleteAircraft] = useDeleteAircraftMutation();
 
-  const { data, isLoading } = useGetAircraftsQuery({
+  const { data, isLoading, isFetching } = useGetAircraftsQuery({
     page,
     perPage,
     sortBy,
@@ -79,28 +84,44 @@ export const AircraftsTable = memo<Props>((props) => {
     return getColumns({
       onEdit,
       onDelete: deleteAircraft,
+      onShowHistory: statusHistoryModal.show,
+      onEditStatus: editStatusModal.show,
     });
-  }, [onEdit, deleteAircraft]);
+  }, [onEdit, deleteAircraft, statusHistoryModal.show, editStatusModal.show]);
 
   return (
-    <Table
-      rowKey="id"
-      loading={isLoading}
-      dataSource={data?.items}
-      columns={columns}
-      pagination={{
-        current: data?.meta.page,
-        pageSize: data?.meta.perPage,
-        total: data?.meta.total,
-        pageSizeOptions: [5, 10, 20],
-        showSizeChanger: true,
-      }}
-      showSorterTooltip={false}
-      onChange={onChangeTableParams}
-      scroll={{
-        x: "1000px",
-      }}
-    />
+    <>
+      <Table
+        rowKey="id"
+        loading={isLoading || isFetching}
+        dataSource={data?.items}
+        columns={columns}
+        pagination={{
+          current: data?.meta.page,
+          pageSize: data?.meta.perPage,
+          total: data?.meta.total,
+          pageSizeOptions: [5, 10, 20],
+          showSizeChanger: true,
+        }}
+        showSorterTooltip={false}
+        onChange={onChangeTableParams}
+        scroll={{
+          x: "1000px",
+        }}
+      />
+      {statusHistoryModal.isVisible && (
+        <StatusHistoryModal
+          aircraft={statusHistoryModal.data!}
+          onClose={statusHistoryModal.hide}
+        />
+      )}
+      {editStatusModal.isVisible && editStatusModal.data && (
+        <AircraftEditStatusModal
+          aircraft={editStatusModal.data}
+          onClose={editStatusModal.hide}
+        />
+      )}
+    </>
   );
 });
 

@@ -81,7 +81,7 @@
     },
     {
       "id": "2",
-      "aircraftId": "5",
+      "aircraftId": "9",
       "newStatus": "maintenance",
       "date": "2025-01-18T07:45:11.470Z",
       "comment": "На техническое обслуживание чтобы что-то проверить"
