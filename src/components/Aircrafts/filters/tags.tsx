@@ -16,6 +16,12 @@ const labels: Record<keyof AircraftsFilters, string> = {
   yearTo: "Год до",
 };
 
+const statusValues: Record<AircraftsFilters["status"], string> = {
+  all: "Все",
+  airworthy: "Готов к вылету",
+  maintenance: "На тех обслуживании",
+};
+
 type TagProps = {
   id: keyof AircraftsFilters;
   value: string;
@@ -36,7 +42,12 @@ const AircraftsFilterTag = memo<TagProps>((props) => {
 
   return (
     <Tag key={id} closeIcon onClose={removeFilter}>
-      {labels[id]}: <b>{value}</b>
+      {labels[id]}:{" "}
+      <b>
+        {id === "status"
+          ? statusValues[value as AircraftsFilters["status"]]
+          : value}
+      </b>
     </Tag>
   );
 });
@@ -50,8 +61,8 @@ export const AircraftsFiltersTags = memo(() => {
     const result: [string, string][] = [];
     for (const key in filters) {
       const value = filters[key as keyof AircraftsFilters];
-      if (value) {
-        result.push([key, value]);
+      if (value && (key === "status" ? value !== "all" : true)) {
+        result.push([key, value as string]);
       }
     }
     return result;
