@@ -1,6 +1,6 @@
 import { Layout } from "antd";
 
-import { AircraftsTable } from "@/components/AircraftsTable";
+import { Aircrafts } from "@/components/Aircrafts";
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
         <h1>{"Система управления \nтехническим обслуживанием самолетов"}</h1>
       </Layout.Header>
       <Layout.Content style={{ padding: 50 }}>
-        <AircraftsTable />
+        <Aircrafts />
       </Layout.Content>
     </Layout>
   );

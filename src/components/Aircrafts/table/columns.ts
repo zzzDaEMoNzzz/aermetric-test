@@ -1,6 +1,6 @@
 import { ColumnsType } from "antd/es/table";
 
-import { Aircraft } from "@/types/aircrafts.ts";
+import { Aircraft } from "@/types/aircrafts";
 
 const getStatusText = (status: Aircraft["status"]): string => {
   switch (status) {
@@ -24,7 +24,7 @@ const getStatusColor = (status: Aircraft["status"]) => {
   }
 };
 
-export const columns: ColumnsType<Aircraft> = [
+export const getColumns = (): ColumnsType<Aircraft> => [
   {
     title: "Регистрационный номер",
     key: "registrationNumber",

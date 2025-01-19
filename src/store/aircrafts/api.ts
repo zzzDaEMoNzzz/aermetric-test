@@ -4,19 +4,32 @@ import { Aircraft } from "@/types/aircrafts";
 import { PaginationMeta, PaginationParams } from "@/types/pagination";
 import { SortParams } from "@/types/sorting";
 
+import { AircraftsFilters } from "./types";
+import { getSearchParamsForAircraftsFilters } from "./utils";
+
+type GetAircraftsParams = PaginationParams &
+  SortParams & {
+    filters: AircraftsFilters;
+  };
+
 export const aircraftsApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8000/api/aircrafts" }),
   endpoints: (build) => ({
-    getAllAircrafts: build.query<
+    getAircrafts: build.query<
       {
         items: Aircraft[];
         meta: PaginationMeta & SortParams;
       },
-      PaginationParams & SortParams
+      GetAircraftsParams
     >({
-      query: ({ page, perPage, sortBy, sortOrder }) => {
+      query: ({ page, perPage, sortBy, sortOrder, filters }) => {
         const order = sortOrder === "descend" ? "desc" : "asc";
-        return `/?_page=${page}&_limit=${perPage}&_sort=${sortBy}&_order=${order}`;
+        let url = `/?_page=${page}&_limit=${perPage}&_sort=${sortBy}&_order=${order}`;
+        const filtersParams = getSearchParamsForAircraftsFilters(filters);
+        if (filtersParams) {
+          url += `&${filtersParams}`;
+        }
+        return url;
       },
       transformResponse(data: Aircraft[], meta, params) {
         const totalHeader = meta?.response?.headers.get("X-total-count") || "";
@@ -33,4 +46,4 @@ export const aircraftsApi = createApi({
   }),
 });
 
-export const { useGetAllAircraftsQuery } = aircraftsApi;
+export const { useGetAircraftsQuery } = aircraftsApi;
