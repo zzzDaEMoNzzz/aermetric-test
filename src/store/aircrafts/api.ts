@@ -14,6 +14,7 @@ type GetAircraftsParams = PaginationParams &
 
 export const aircraftsApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8000/api/aircrafts" }),
+  tagTypes: ["Aircraft"],
   endpoints: (build) => ({
     getAircrafts: build.query<
       {
@@ -42,8 +43,56 @@ export const aircraftsApi = createApi({
           },
         };
       },
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.items.map(({ id }) => ({
+                type: "Aircraft" as const,
+                id,
+              })),
+              "Aircraft",
+            ]
+          : ["Aircraft"],
+    }),
+
+    createAircraft: build.mutation<Aircraft, Partial<Aircraft>>({
+      query(body) {
+        return {
+          url: "/",
+          method: "POST",
+          body,
+        };
+      },
+      invalidatesTags: ["Aircraft"],
+    }),
+
+    updateAircraft: build.mutation<Aircraft, Partial<Aircraft>>({
+      query(data) {
+        const { id, ...body } = data;
+        return {
+          url: id!,
+          method: "PUT",
+          body,
+        };
+      },
+      invalidatesTags: ["Aircraft"],
+    }),
+
+    deleteAircraft: build.mutation<void, Aircraft["id"]>({
+      query(id) {
+        return {
+          url: id,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["Aircraft"],
     }),
   }),
 });
 
-export const { useGetAircraftsQuery } = aircraftsApi;
+export const {
+  useGetAircraftsQuery,
+  useCreateAircraftMutation,
+  useUpdateAircraftMutation,
+  useDeleteAircraftMutation,
+} = aircraftsApi;

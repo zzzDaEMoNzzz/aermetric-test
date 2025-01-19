@@ -4,7 +4,10 @@ import { type FilterValue, SorterResult } from "antd/es/table/interface";
 
 import { Aircraft } from "@/types/aircrafts";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { useGetAircraftsQuery } from "@/store/aircrafts/api";
+import {
+  useDeleteAircraftMutation,
+  useGetAircraftsQuery,
+} from "@/store/aircrafts/api";
 import {
   selectAircraftsFilters,
   selectAircraftsPage,
@@ -25,7 +28,13 @@ const getSorterParams = (
   return Array.isArray(sorter) ? sorter[0] : sorter;
 };
 
-export const AircraftsTable = memo(() => {
+type Props = {
+  onEdit: (aircraft: Aircraft) => void;
+};
+
+export const AircraftsTable = memo<Props>((props) => {
+  const { onEdit } = props;
+
   const dispatch = useAppDispatch();
 
   const page = useAppSelector(selectAircraftsPage);
@@ -33,6 +42,8 @@ export const AircraftsTable = memo(() => {
   const sortBy = useAppSelector(selectAircraftsSortBy);
   const sortOrder = useAppSelector(selectAircraftsSortOrder);
   const filters = useAppSelector(selectAircraftsFilters);
+
+  const [deleteAircraft] = useDeleteAircraftMutation();
 
   const { data, isLoading } = useGetAircraftsQuery({
     page,
@@ -65,8 +76,11 @@ export const AircraftsTable = memo(() => {
   );
 
   const columns = useMemo(() => {
-    return getColumns();
-  }, []);
+    return getColumns({
+      onEdit,
+      onDelete: deleteAircraft,
+    });
+  }, [onEdit, deleteAircraft]);
 
   return (
     <Table
@@ -83,6 +97,9 @@ export const AircraftsTable = memo(() => {
       }}
       showSorterTooltip={false}
       onChange={onChangeTableParams}
+      scroll={{
+        x: "1000px",
+      }}
     />
   );
 });

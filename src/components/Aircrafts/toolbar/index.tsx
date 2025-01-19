@@ -6,7 +6,13 @@ import styled from "styled-components";
 import { useModalState } from "@/hooks/useModalState";
 import { AircraftFiltersModal } from "@/components/Aircrafts/filters";
 
-export const AircraftsToolbar = memo(() => {
+type Props = {
+  onCreate(): void;
+};
+
+export const AircraftsToolbar = memo<Props>((props) => {
+  const { onCreate } = props;
+
   const filtersModal = useModalState();
 
   return (
@@ -21,7 +27,12 @@ export const AircraftsToolbar = memo(() => {
         >
           Фильтры
         </Button>
-        <Button variant="solid" color="blue" icon={<PlusOutlined />}>
+        <Button
+          variant="solid"
+          color="blue"
+          icon={<PlusOutlined />}
+          onClick={onCreate}
+        >
           Добавить
         </Button>
       </Actions>
